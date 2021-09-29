@@ -12,6 +12,7 @@ public class MainManager : MonoBehaviour
 
     public Text ScoreText;
     public GameObject GameOverText;
+    public Text HighScoreText;
     
     private bool m_Started = false;
     private int m_Points;
@@ -22,6 +23,8 @@ public class MainManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        UIMain.Instance.LoadScore();
+        HighScoreText.text = "Best Score: " + UIMain.Instance.scoreName + " : " + UIMain.Instance.scorePoints;
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -72,5 +75,9 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+        if (UIMain.Instance.scorePoints < m_Points)
+        {
+            UIMain.Instance.SaveScore(m_Points);
+        }
     }
 }
